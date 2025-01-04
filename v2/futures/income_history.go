@@ -13,6 +13,7 @@ type GetIncomeHistoryService struct {
 	incomeType string
 	startTime  *int64
 	endTime    *int64
+	page       *int64
 	limit      *int64
 }
 
@@ -46,6 +47,12 @@ func (s *GetIncomeHistoryService) Limit(limit int64) *GetIncomeHistoryService {
 	return s
 }
 
+// Page set page
+func (s *GetIncomeHistoryService) Page(page int64) *GetIncomeHistoryService {
+	s.page = &page
+	return s
+}
+
 // Do send request
 func (s *GetIncomeHistoryService) Do(ctx context.Context, opts ...RequestOption) (res []*IncomeHistory, err error) {
 	r := &request{
@@ -62,6 +69,9 @@ func (s *GetIncomeHistoryService) Do(ctx context.Context, opts ...RequestOption)
 	}
 	if s.endTime != nil {
 		r.setParam("endTime", *s.endTime)
+	}
+	if s.page != nil {
+		r.setParam("page", *s.page)
 	}
 	if s.limit != nil {
 		r.setParam("limit", *s.limit)

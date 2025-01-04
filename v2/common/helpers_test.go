@@ -37,6 +37,15 @@ func TestAmountToLotSize(t *testing.T) {
 			want: 1.389,
 		},
 		{
+			name: "test MEW",
+			args: args{
+				lot:       0.0000010,
+				precision: 7,
+				amount:    0.003923153000000002,
+			},
+			want: 0.003923,
+		},
+		{
 			name: "test with big decimal",
 			args: args{
 				lot:       0.00100000,
@@ -57,7 +66,7 @@ func TestAmountToLotSize(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(tt.want, AmountToLotSize(tt.args.lot, tt.args.precision, tt.args.amount))
+			assert.Equal(tt.want, RoundPriceToTickSize(tt.args.amount, tt.args.lot))
 		})
 	}
 }
